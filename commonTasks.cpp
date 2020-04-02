@@ -16,6 +16,60 @@ void printMessage(QString &message) {
     std::cerr << message.toStdString() << "\n";
 }
 
+bool recursiveCopy(const QString &source,
+		   const QString &target)
+{
+  QFileInfo sourceInfo(source);
+  if (!sourceInfo.isDir()) { 
+    
+    // if not directory, then a file just copy
+    if (!QFile::copy(source, target))
+      return false;
+    
+  } else {
+ 
+    // don't of course copy from HOME,DESKTOP, DOWNLOADS,
+    /*
+    QStandardPaths::DesktopLocation
+      QStandardPaths::DocumentsLocation
+      QStandardPaths::ApplicationsLocation
+      QStandardPaths::HomeLocation
+      QStandardPaths::DownloadLocation
+    */
+
+    //
+    // source is a directory:
+    //   1. make directory for target 
+    //   2. now copy all files and directory in source to target
+    //
+    
+    // mkdir target
+    QDir targetDir(target);
+    targetDir.cdUp();
+    if (!targetDir.mkdir(QFileInfo(target).fileName())) {
+      return false;
+    }
+    
+    // get list of all files in source and copy them, by calling this function
+    
+    QDir sourceDir(source);
+    QStringList fileNames = sourceDir.entryList(QDir::Files 
+						| QDir::Dirs 
+						| QDir::NoDotAndDotDot 
+						| QDir::Hidden 
+						| QDir::System);
+    
+    foreach (const QString &fileName, fileNames) {
+      const QString newSrcFilePath = source + QDir::separator() + fileName;
+      const QString newTgtFilePath = target + QDir::separator() + fileName;
+      if (!recursiveCopy(newSrcFilePath, newTgtFilePath))
+	return false;
+    }
+  }
+
+  return true;
+}
+
 void resetPreferences(int argc, char *argv[]) {
 
    QString appName = QCoreApplication::applicationName();
