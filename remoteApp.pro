@@ -1,6 +1,6 @@
 QT -= gui
 
-CONFIG += c++ console
+CONFIG += c++ console network
 
 CONFIG -= app_bundle
 
@@ -24,10 +24,12 @@ include(./ZipUtils/ZipUtils.pri)
 SOURCES += main.cpp \
     GoogleAnalytics.cpp \
     RemoteService.cpp \
-    commonTasks.cpp \
+    Task.cpp \
+    FEM_UQ.cpp \
     TapisCurl.cpp
 
 HEADERS += GoogleAnalytics.h \
     RemoteService.h \
     TapisCurl.h \
-    commonTasks.h
+    FEM_UQ.h \
+    Task.h

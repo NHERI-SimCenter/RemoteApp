@@ -62,12 +62,12 @@ using namespace std;
 
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream)
 {
-  size_t written = fwrite(ptr, size, nmemb, (FILE *)stream);
-  return written;
+    size_t written = fwrite(ptr, size, nmemb, (FILE *)stream);
+    return written;
 }
 
 TapisCurl::TapisCurl(QString &_tenant, QString &_storage, QString *appDir, QObject *parent)
-  :RemoteService(parent), tenant(_tenant), storage(_storage), loggedInFlag(false), slotNeededLocally(false)
+    :RemoteService(parent), tenant(_tenant), storage(_storage), loggedInFlag(false), slotNeededLocally(false)
 {
     //
     // for operation this class needs two temporary files to function
@@ -96,7 +96,7 @@ TapisCurl::TapisCurl(QString &_tenant, QString &_storage, QString *appDir, QObje
     appClient = QString("appClient");
 
     if (appDir != nullptr)
-      appDirName = QString(*appDir);
+        appDirName = QString(*appDir);
 }
 
 TapisCurl::~TapisCurl()
@@ -149,28 +149,28 @@ TapisCurl::isLoggedIn()
 void
 TapisCurl::loginCall(QString uname, QString upassword)
 {
-  bool result = this->login(uname, upassword);
-  emit loginReturn(result);
-  if (result == true) {
-    QString result = storage + username;
-    if (!appDirName.isEmpty())
-      result = result + "/" + appDirName;
+    bool result = this->login(uname, upassword);
+    emit loginReturn(result);
+    if (result == true) {
+        QString result = storage + username;
+        if (!appDirName.isEmpty())
+            result = result + "/" + appDirName;
 
-    emit getHomeDirPathReturn(result);
-  }
+        emit getHomeDirPathReturn(result);
+    }
 }
 
 bool
 TapisCurl::login(QString uname, QString upassword)
 {
-   username = uname;
-   password = upassword;
+    username = uname;
+    password = upassword;
 
-   QString consumerSecret;
-   QString consumerKey;
+    QString consumerSecret;
+    QString consumerKey;
 
-   curl_slist_free_all(slist1);
-   slist1 = NULL;
+    curl_slist_free_all(slist1);
+    slist1 = NULL;
 
     //
     // first try deleting old app, needed if program crashed or old not deleted
@@ -312,7 +312,7 @@ TapisCurl::login(QString uname, QString upassword)
     
     if (val.contains("Invalid Credentals") || val.isEmpty()) {
         emit errorMessage("ERROR: Invalid Credentials in OAuth!");
-	return false;
+        return false;
     } else {
         QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
         QJsonObject jsonObj = doc.object();
@@ -321,32 +321,32 @@ TapisCurl::login(QString uname, QString upassword)
             bearer = QString("Authorization: Bearer ") + accessToken;
             slist1 = curl_slist_append(slist1, bearer.toStdString().c_str());
             loggedInFlag = true;
-	    
-	    // now if appDir is specified make sure dir exists, 
-	    // creating it does delete existing one and one call as opposed to 2 if not there
-	    if (!appDirName.isEmpty()) {
-	      QString home = storage + username;
-	      bool ok = this->mkdir(appDirName, username);
-	      if (ok != true) {
-		QString message = QString("WARNING - could not create " ) + appDirName 
-		  + QString("on login, using home dir instead");
-		appDirName = QString(""); // no erase function!
-		emit statusMessage(message);
-	      } else {
-		emit statusMessage("Login SUCCESS");
-	      }
-	    } else {
-	      emit statusMessage("Login SUCCESS");
-	    }
 
-	    return true;
+            // now if appDir is specified make sure dir exists,
+            // creating it does delete existing one and one call as opposed to 2 if not there
+            if (!appDirName.isEmpty()) {
+                QString home = storage + username;
+                bool ok = this->mkdir(appDirName, username);
+                if (ok != true) {
+                    QString message = QString("WARNING - could not create " ) + appDirName
+                            + QString("on login, using home dir instead");
+                    appDirName = QString(""); // no erase function!
+                    emit statusMessage(message);
+                } else {
+                    emit statusMessage("Login SUCCESS");
+                }
+            } else {
+                emit statusMessage("Login SUCCESS");
+            }
+
+            return true;
         }
-	emit statusMessage("ERROR - no access token returned!");
-	return false;
+        emit statusMessage("ERROR - no access token returned!");
+        return false;
     }
     return false;
 
-   /* *************************************************** to test aloe 
+    /* *************************************************** to test aloe
     consumerKey = QString("");
     consumerSecret = QString("");
     QString accessToken = QString("");
@@ -361,8 +361,8 @@ TapisCurl::login(QString uname, QString upassword)
 void
 TapisCurl::logoutCall()
 {
-  bool result = this->logout();
-  emit logoutReturn(result);
+    bool result = this->logout();
+    emit logoutReturn(result);
 }
 
 bool
@@ -419,8 +419,8 @@ TapisCurl::getHomeDirPath(void) {
 void
 TapisCurl::uploadDirectoryCall(const QString &local, const QString &remote)
 {
-  bool result = this->uploadDirectory(local, remote);
-  emit uploadDirectoryReturn(result);
+    bool result = this->uploadDirectory(local, remote);
+    emit uploadDirectoryReturn(result);
 }
 
 bool
@@ -432,9 +432,9 @@ TapisCurl::uploadDirectory(const QString &local, const QString &remote)
 
     QDir originDirectory(local);
     if (! originDirectory.exists()) {
-      emit errorMessage(QString("ERROR - local directory does not exist : ") + local);
-      std::cerr << "ERROR - local directory does not exist : "  + local.toStdString();
-      return false;
+        emit errorMessage(QString("ERROR - local directory does not exist : ") + local);
+        std::cerr << "ERROR - local directory does not exist : "  + local.toStdString();
+        return false;
     }
     QString dirName = originDirectory.dirName();
 
@@ -445,8 +445,8 @@ TapisCurl::uploadDirectory(const QString &local, const QString &remote)
     QString remoteCleaned = remote;
     remoteCleaned.remove(storage);
     if (this->mkdir(dirName, remoteCleaned) != true) {
-      std::cerr << "Could not create dir: " << dirName.toStdString() << " in " << remoteCleaned.toStdString() << "\n";
-      return false;
+        std::cerr << "Could not create dir: " << dirName.toStdString() << " in " << remoteCleaned.toStdString() << "\n";
+        return false;
     }
     remoteCleaned = remoteCleaned + QString("/") + dirName;
 
@@ -455,7 +455,7 @@ TapisCurl::uploadDirectory(const QString &local, const QString &remote)
     //   - if dir we recursivily call the method
     //
 
-   // originDirectory.mkpath(destinationDir);
+    // originDirectory.mkpath(destinationDir);
 
     foreach (QString directoryName, originDirectory.entryList(QDir::Dirs | \
                                                               QDir::NoDotAndDotDot))
@@ -473,7 +473,7 @@ TapisCurl::uploadDirectory(const QString &local, const QString &remote)
     {
         QString localFile = local + QDir::separator() + fileName;
         QString remoteFile = remoteCleaned + "/" + fileName;
-	std::cerr << "\tuploading file: " << localFile.toStdString() << "\n";
+        std::cerr << "\tuploading file: " << localFile.toStdString() << "\n";
         if (this->uploadFile(localFile, remoteFile) != true) {
             this->removeDirectory(remoteCleaned);
             return false;
@@ -486,8 +486,8 @@ TapisCurl::uploadDirectory(const QString &local, const QString &remote)
 
 void
 TapisCurl::removeDirectoryCall(const QString &remote) {
-  bool result = this->removeDirectory(remote);
-  emit removeDirectoryReturn(result);
+    bool result = this->removeDirectory(remote);
+    emit removeDirectoryReturn(result);
 }
 
 bool
@@ -511,8 +511,8 @@ TapisCurl::removeDirectory(const QString &remote)
     // open results file
     QFile file(uniqueFileName1);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-      emit errorMessage("ERROR: removeDirectory .. COULD NOT OPEN RESULT .. libCurl ERROR");
-      return false;
+        emit errorMessage("ERROR: removeDirectory .. COULD NOT OPEN RESULT .. libCurl ERROR");
+        return false;
     }
 
     // read results file & check for errors
@@ -521,122 +521,122 @@ TapisCurl::removeDirectory(const QString &remote)
     file.close();
 
     // read into json object
-   QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-   QJsonObject theObj = doc.object();
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
 
-   // parse json object for status
-   //   if error emit error message & return NOT FOUND, if no status it's an error
-   //   if success then get result & return the job sttaus
+    // parse json object for status
+    //   if error emit error message & return NOT FOUND, if no status it's an error
+    //   if success then get result & return the job sttaus
 
-   QString status;
-   if (theObj.contains("status")) {
-       status = theObj["status"].toString();
-       if (status == "error") {
+    QString status;
+    if (theObj.contains("status")) {
+        status = theObj["status"].toString();
+        if (status == "error") {
 
-           // if error get errormessage and return error
-           QString message("Job Not Found");
-           if (theObj.contains("message"))
-               message = theObj["message"].toString();
+            // if error get errormessage and return error
+            QString message("Job Not Found");
+            if (theObj.contains("message"))
+                message = theObj["message"].toString();
 
-           emit errorMessage(message);
-	   return false;
+            emit errorMessage(message);
+            return false;
 
-       } else if (status == "success") {
-           emit errorMessage("Succesfully removed directory");
-           return true;
-       }
+        } else if (status == "success") {
+            emit errorMessage("Succesfully removed directory");
+            return true;
+        }
 
-   } else if (theObj.contains("fault")) {
-       QJsonObject theFault = theObj["fault"].toObject();
-       if (theFault.contains("message")) {
-           QString message = theFault["message"].toString();
-           emit errorMessage(message);
-           return false;
-       }
-   }
-   return false;
+    } else if (theObj.contains("fault")) {
+        QJsonObject theFault = theObj["fault"].toObject();
+        if (theFault.contains("message")) {
+            QString message = theFault["message"].toString();
+            emit errorMessage(message);
+            return false;
+        }
+    }
+    return false;
 }
 
 void
 TapisCurl::mkdirCall(const QString &remoteName, const QString &remotePath) {
-  bool result = mkdir(remoteName, remotePath);
-  emit mkdirReturn(result);
+    bool result = mkdir(remoteName, remotePath);
+    emit mkdirReturn(result);
 }
 
 bool
 TapisCurl::mkdir(const QString &remoteName, const QString &remotePath) {
 
-  QString message = QString("Contacting ") + tenant + QString(" to create dir ") + remotePath + QString("/") + remoteName;
+    QString message = QString("Contacting ") + tenant + QString(" to create dir ") + remotePath + QString("/") + remoteName;
     emit statusMessage(message);
 
-     bool result = false;
+    bool result = false;
 
-     QString url = tenantURL + QString("files/v2/media/") + remotePath;
+    QString url = tenantURL + QString("files/v2/media/") + remotePath;
 
-     QString postField = QString("action=mkdir&path=") + remoteName;
-     int postFieldLength = postField.length() ; // strlen(postFieldChar);
-      char *pField = new char[postFieldLength+1]; // have to do new char as seems to miss ending string char when pass directcly
-      strncpy(pField, postField.toStdString().c_str(),postFieldLength+1);
+    QString postField = QString("action=mkdir&path=") + remoteName;
+    int postFieldLength = postField.length() ; // strlen(postFieldChar);
+    char *pField = new char[postFieldLength+1]; // have to do new char as seems to miss ending string char when pass directcly
+    strncpy(pField, postField.toStdString().c_str(),postFieldLength+1);
 
-      curl_easy_setopt(hnd, CURLOPT_URL, url.toStdString().c_str());
-      curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, pField);
-      curl_easy_setopt(hnd, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t)postFieldLength);
-      curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_easy_setopt(hnd, CURLOPT_URL, url.toStdString().c_str());
+    curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, pField);
+    curl_easy_setopt(hnd, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t)postFieldLength);
+    curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "PUT");
 
-      if (this->invokeCurl() == false) {
-          return false;
-       }
+    if (this->invokeCurl() == false) {
+        return false;
+    }
 
-      //
-      // process the results
-      //
+    //
+    // process the results
+    //
 
-      // open results file
-      QFile file(uniqueFileName1);
-      if (!file.open(QFile::ReadOnly | QFile::Text)) {
-          emit errorMessage("ERROR: removeDirectory .. COULD NOT OPEN RESULT");
-          return false;
-      }
+    // open results file
+    QFile file(uniqueFileName1);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        emit errorMessage("ERROR: removeDirectory .. COULD NOT OPEN RESULT");
+        return false;
+    }
 
-      // read results file & check for errors
-      QString val;
-      val=file.readAll();
-      file.close();
+    // read results file & check for errors
+    QString val;
+    val=file.readAll();
+    file.close();
 
-      // read into json object
-     QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-     QJsonObject theObj = doc.object();
+    // read into json object
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
 
-     // parse json object for status
-     //   if error emit error message & return NOT FOUND, if no status it's an error
-     //   if success then get result & return the job sttaus
+    // parse json object for status
+    //   if error emit error message & return NOT FOUND, if no status it's an error
+    //   if success then get result & return the job sttaus
 
-     QString status;
-     if (theObj.contains("status")) {
-         status = theObj["status"].toString();
-         if (status == "error") {
-             QString message("Job Not Found");
-             if (theObj.contains("message"))
-                 message = theObj["message"].toString();
-             emit errorMessage(message);
-	     return false;
-         } else if (status == "success") {
-             return true;
-         } 
-     } else {
-       QJsonDocument doc(theObj);
-       QString strJson(doc.toJson(QJsonDocument::Compact));
-       emit errorMessage(strJson);
-       return false;
-     }
+    QString status;
+    if (theObj.contains("status")) {
+        status = theObj["status"].toString();
+        if (status == "error") {
+            QString message("Job Not Found");
+            if (theObj.contains("message"))
+                message = theObj["message"].toString();
+            emit errorMessage(message);
+            return false;
+        } else if (status == "success") {
+            return true;
+        }
+    } else {
+        QJsonDocument doc(theObj);
+        QString strJson(doc.toJson(QJsonDocument::Compact));
+        emit errorMessage(strJson);
+        return false;
+    }
 
-     return result;
+    return result;
 }
 
 void
 TapisCurl::uploadFileCall(const QString &local, const QString &remote) {
-  bool result = this->uploadFile(local, remote);
-  emit uploadFileReturn(result);
+    bool result = this->uploadFile(local, remote);
+    emit uploadFileReturn(result);
 }
 
 bool
@@ -692,7 +692,7 @@ TapisCurl::uploadFile(const QString &local, const QString &remote) {
     QFile file(uniqueFileName1);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         emit errorMessage("ERROR: COULD NOT OPEN RESULT");
-	return false;
+        return false;
     }
 
     // read results file & check for errors
@@ -701,37 +701,37 @@ TapisCurl::uploadFile(const QString &local, const QString &remote) {
     file.close();
 
     // read into json object
-   QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-   QJsonObject theObj = doc.object();
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
 
-   // parse json object for status
-   //   if error emit error message & return NOT FOUND, if no status it's an error
-   //   if success then get result & return the job sttaus
+    // parse json object for status
+    //   if error emit error message & return NOT FOUND, if no status it's an error
+    //   if success then get result & return the job sttaus
 
-   QString status;
-   if (theObj.contains("status")) {
-       status = theObj["status"].toString();
-       if (status == "error") {
-           QString message("Job Not Found");
-           if (theObj.contains("message"))
-               message = theObj["message"].toString();
-           emit errorMessage(message);
-           return false;
-       } else if (status == "success") {
-           emit statusMessage("Successfully uploaded diretory");
-           return true;
-       }
+    QString status;
+    if (theObj.contains("status")) {
+        status = theObj["status"].toString();
+        if (status == "error") {
+            QString message("Job Not Found");
+            if (theObj.contains("message"))
+                message = theObj["message"].toString();
+            emit errorMessage(message);
+            return false;
+        } else if (status == "success") {
+            emit statusMessage("Successfully uploaded diretory");
+            return true;
+        }
 
-   } else if (theObj.contains("fault")) {
-       QJsonObject theFault = theObj["fault"].toObject();
-       if (theFault.contains("message")) {
-           QString message = theFault["message"].toString();
-           emit errorMessage(message);
-	   return false;
-       }
-   }
+    } else if (theObj.contains("fault")) {
+        QJsonObject theFault = theObj["fault"].toObject();
+        if (theFault.contains("message")) {
+            QString message = theFault["message"].toString();
+            emit errorMessage(message);
+            return false;
+        }
+    }
 
-   return false;
+    return false;
 }
 
 
@@ -748,7 +748,7 @@ TapisCurl::downloadFilesCall(const QStringList &remoteFiles, const QStringList &
         }
     }
 
-  emit downloadFilesReturn(result, sender);
+    emit downloadFilesReturn(result, sender);
 }
 
 bool
@@ -760,7 +760,7 @@ TapisCurl::downloadFile(const QString &remoteFile, const QString &localFile)
 
     QFileInfo remoteFileInfo(remoteFile);
     QString remoteName = remoteFileInfo.fileName();
- //   QString localName = localFile.fileName();
+    //   QString localName = localFile.fileName();
 
     QString message = QString("Contacting ") + tenant + QString(" to download remote file ") + remoteName; // + QString( " to ") + localFile;
     emit statusMessage(message);
@@ -850,8 +850,8 @@ TapisCurl::remoteLS(const QString &remotePath)
     file.close();
 
     // read into json object
-   QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-   QJsonObject theObj = doc.object();
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
 
     QString status;
     if (theObj.contains("status")) {
@@ -889,17 +889,17 @@ TapisCurl::remoteLS(const QString &remotePath)
 QString
 TapisCurl::startJob(const QString &jobDescriptionFile)
 {
-  QString result = "FAILURE";
+    QString result = "FAILURE";
 
-  //
-  // openfile, put in QJsonObj and call other method
-  //
+    //
+    // openfile, put in QJsonObj and call other method
+    //
 
     // open results file
     QFile file(jobDescriptionFile);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-      emit errorMessage("ERROR: COULD NOT OPEN RESULT");
-      return result;
+        emit errorMessage("ERROR: COULD NOT OPEN RESULT");
+        return result;
     }
 
     // read results file & check for errors
@@ -908,17 +908,17 @@ TapisCurl::startJob(const QString &jobDescriptionFile)
     file.close();
 
     // read into json object
-   QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-   QJsonObject theObj = doc.object();
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
 
-   return startJob(theObj);
+    return startJob(theObj);
 }
 
 void
 TapisCurl::startJobCall(const QJsonObject &theJob) {
 
-  QString result = startJob(theJob);
-  emit startJobReturn(result);
+    QString result = startJob(theJob);
+    emit startJobReturn(result);
 }
 
 QString
@@ -942,7 +942,7 @@ TapisCurl::startJob(const QJsonObject &theJob)
     curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
 
     if (this->invokeCurl() == false) {
-       return result;
+        return result;
     }
 
     //
@@ -952,8 +952,8 @@ TapisCurl::startJob(const QJsonObject &theJob)
     // open results file
     QFile file(uniqueFileName1);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-      emit errorMessage("ERROR: COULD NOT OPEN RESULT");
-      return result;
+        emit errorMessage("ERROR: COULD NOT OPEN RESULT");
+        return result;
     }
 
     // read results file & check for errors
@@ -962,59 +962,59 @@ TapisCurl::startJob(const QJsonObject &theJob)
     file.close();
 
     // read into json object
-   QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-   QJsonObject theObj = doc.object();
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
 
-   // parse json object for status
-   //   if error emit error message & return NOT FOUND, if no status it's an error
-   //   if success then get result & return the job sttaus
+    // parse json object for status
+    //   if error emit error message & return NOT FOUND, if no status it's an error
+    //   if success then get result & return the job sttaus
 
-   QString status;
-   if (theObj.contains("status")) {
-       status = theObj["status"].toString();
-       if (status == "error") {
-           QString message("Job Not Found");
-           if (theObj.contains("message"))
-               message = QString("ERROR: " ) + theObj["message"].toString();
-           emit errorMessage(message);
-	   std::cerr << message.toStdString();
-	   return result;
-       } else if (status == "success") {
-           if (theObj.contains("result")) {
-               QJsonObject resObj = theObj["result"].toObject();
-               if (resObj.contains("id")) {
-                   QString jobID =  resObj["id"].toString();
-                   QString message = QString("Succesfully started job: ") + jobID;
-                   emit statusMessage(message);
-		   std::cerr << message.toStdString();
-                   return jobID;
-               }
-           }
-       }
+    QString status;
+    if (theObj.contains("status")) {
+        status = theObj["status"].toString();
+        if (status == "error") {
+            QString message("Job Not Found");
+            if (theObj.contains("message"))
+                message = QString("ERROR: " ) + theObj["message"].toString();
+            emit errorMessage(message);
+            std::cerr << message.toStdString();
+            return result;
+        } else if (status == "success") {
+            if (theObj.contains("result")) {
+                QJsonObject resObj = theObj["result"].toObject();
+                if (resObj.contains("id")) {
+                    QString jobID =  resObj["id"].toString();
+                    QString message = QString("Succesfully started job: ") + jobID;
+                    emit statusMessage(message);
+                    std::cerr << message.toStdString();
+                    return jobID;
+                }
+            }
+        }
 
-   } else if (theObj.contains("fault")) {
-       QJsonObject theFault = theObj["fault"].toObject();
-       if (theFault.contains("message")) {
-           QString message = theFault["message"].toString();
-           emit errorMessage(message);
-	   std::cerr << message.toStdString();
-           return result;
-       }
-   } else {
-     QString message("Job failed for unknown reason");;
-     emit errorMessage(message);
-     std::cerr << message.toStdString();
-     return result;
-   }
+    } else if (theObj.contains("fault")) {
+        QJsonObject theFault = theObj["fault"].toObject();
+        if (theFault.contains("message")) {
+            QString message = theFault["message"].toString();
+            emit errorMessage(message);
+            std::cerr << message.toStdString();
+            return result;
+        }
+    } else {
+        QString message("Job failed for unknown reason");;
+        emit errorMessage(message);
+        std::cerr << message.toStdString();
+        return result;
+    }
 
-   return result;
+    return result;
 }
 
 
 void
 TapisCurl::getJobListCall(const QString &matchingName) {
-  QJsonObject result = getJobList(matchingName);
-  emit getJobListReturn(result);
+    QJsonObject result = getJobList(matchingName);
+    emit getJobListReturn(result);
 }
 
 QJsonObject
@@ -1070,54 +1070,54 @@ TapisCurl::getJobList(const QString &matchingName)
 void
 TapisCurl::getJobDetailsCall(const QString &jobID)
 {
-  QJsonObject result = getJobDetails(jobID);
-  emit getJobDetailsReturn(result);
+    QJsonObject result = getJobDetails(jobID);
+    emit getJobDetailsReturn(result);
 }
 
 
 QJsonObject
 TapisCurl::getJobDetails(const QString &jobID)
 {
-  QJsonObject result;
+    QJsonObject result;
 
-  QString message = QString("Contacting ") + tenant + QString(" to Get Job Details of ") + jobID;
-  emit statusMessage(message);
+    QString message = QString("Contacting ") + tenant + QString(" to Get Job Details of ") + jobID;
+    emit statusMessage(message);
 
-  QString url = tenantURL + QString("jobs/v2/") + jobID;
-  curl_easy_setopt(hnd, CURLOPT_URL, url.toStdString().c_str());
-  if (this->invokeCurl() == false) {
-      return result;
-  }
+    QString url = tenantURL + QString("jobs/v2/") + jobID;
+    curl_easy_setopt(hnd, CURLOPT_URL, url.toStdString().c_str());
+    if (this->invokeCurl() == false) {
+        return result;
+    }
 
-  //
-  // process the results
-  //
-  
-  // open results file
-  QFile file(uniqueFileName1);
-  if (!file.open(QFile::ReadOnly | QFile::Text)) {
-    emit errorMessage("ERROR: COULD NOT OPEN RESULT .. getJobDetails!");
+    //
+    // process the results
+    //
+
+    // open results file
+    QFile file(uniqueFileName1);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        emit errorMessage("ERROR: COULD NOT OPEN RESULT .. getJobDetails!");
+        return result;
+    }
+
+    // read results file & check for errors
+    QString val;
+    val=file.readAll();
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject theObj = doc.object();
+    if (theObj.contains("result")){
+        result = theObj["result"].toObject();
+    }
+
     return result;
-  }
-  
-  // read results file & check for errors
-  QString val;
-  val=file.readAll();
-  file.close();
-
-  QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
-  QJsonObject theObj = doc.object();
-  if (theObj.contains("result")){
-      result = theObj["result"].toObject();
-  }
-  
-  return result;
 }
 
 void
 TapisCurl::getJobStatusCall(const QString &jobID){
-  QString result = this->getJobStatus(jobID);
-  emit getJobStatusReturn(result);
+    QString result = this->getJobStatus(jobID);
+    emit getJobStatusReturn(result);
 }
 
 
@@ -1136,7 +1136,7 @@ TapisCurl::getJobStatus(const QString &jobID){
     QString url = tenantURL + QString("jobs/v2/") + jobID + QString("/status");
     curl_easy_setopt(hnd, CURLOPT_URL, url.toStdString().c_str());
     if (this->invokeCurl() == false) {
-          return result;
+        return result;
     }
 
     //
@@ -1154,7 +1154,7 @@ TapisCurl::getJobStatus(const QString &jobID){
     val=file.readAll();
     file.close();
 
-     // read into json object
+    // read into json object
     QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
     QJsonObject theObj = doc.object();
 
@@ -1191,8 +1191,8 @@ TapisCurl::getJobStatus(const QString &jobID){
 
 void
 TapisCurl::deleteJobCall(const QString &jobID, const QStringList &dirToRemove) {
-  bool result = this->deleteJob(jobID, dirToRemove);
-  emit deleteJobReturn(result);
+    bool result = this->deleteJob(jobID, dirToRemove);
+    emit deleteJobReturn(result);
 }
 
 void TapisCurl::remoteLSCall(const QString &remotePath)
@@ -1239,7 +1239,7 @@ TapisCurl::deleteJob(const QString &jobID, const QStringList &dirToRemove)
     QFile file(uniqueFileName1);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         emit errorMessage("ERROR: COULD NOT OPEN RESULT");
-	return false;
+        return false;
     }
 
     // read into json object
@@ -1275,58 +1275,58 @@ TapisCurl::deleteJob(const QString &jobID, const QStringList &dirToRemove)
 bool 
 TapisCurl::invokeCurl(void) {
 
-  CURLcode ret;
+    CURLcode ret;
 
-  //
-  // the methods set many of the options, this private method just sets the
-  // default ones, invokes curl and then reset the handler for the next call
-  // if an error occurs it gets the error messag and emits a signal before returning false
-  //
+    //
+    // the methods set many of the options, this private method just sets the
+    // default ones, invokes curl and then reset the handler for the next call
+    // if an error occurs it gets the error messag and emits a signal before returning false
+    //
 
-  // set default options
-  curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
-  curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.54.0");
+    // set default options
+    curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
+    curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.54.0");
 
-  if (slist2 != NULL) {
-    curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, slist2);
-  }
-  else if (slist1 != NULL) {
-    curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, slist1);
-  }
+    if (slist2 != NULL) {
+        curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, slist2);
+    }
+    else if (slist1 != NULL) {
+        curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, slist1);
+    }
 
-  curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
-  curl_easy_setopt(hnd, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_2TLS);
-  curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYPEER, 0L);
-  curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 0L);
-  curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
-  //  curl_easy_setopt(hnd, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
+    curl_easy_setopt(hnd, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_2TLS);
+    curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 0L);
+    curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
+    //  curl_easy_setopt(hnd, CURLOPT_VERBOSE, 1L);
 
-  // we send the result of curl request to a file > uniqueFileName1
-  FILE *pagefile = fopen(uniqueFileName1.toStdString().c_str(), "wb");
-  if(pagefile) {
-    curl_easy_setopt(hnd, CURLOPT_WRITEFUNCTION, write_data);
-    curl_easy_setopt(hnd, CURLOPT_WRITEDATA, pagefile);
-  }
-  
-  // perform the curl operation that has been set up
-  ret = curl_easy_perform(hnd);
-  fclose(pagefile);
+    // we send the result of curl request to a file > uniqueFileName1
+    FILE *pagefile = fopen(uniqueFileName1.toStdString().c_str(), "wb");
+    if(pagefile) {
+        curl_easy_setopt(hnd, CURLOPT_WRITEFUNCTION, write_data);
+        curl_easy_setopt(hnd, CURLOPT_WRITEDATA, pagefile);
+    }
 
-  // reset the handle so methods can fill in the different options before next call
-  curl_easy_reset(hnd);
-  if (slist2 != NULL) {
-    curl_slist_free_all(slist2);
-    slist2 = NULL;
-  }
+    // perform the curl operation that has been set up
+    ret = curl_easy_perform(hnd);
+    fclose(pagefile);
 
-  // check for success
-  if (ret == CURLE_OK)
-    return true;
+    // reset the handle so methods can fill in the different options before next call
+    curl_easy_reset(hnd);
+    if (slist2 != NULL) {
+        curl_slist_free_all(slist2);
+        slist2 = NULL;
+    }
 
-  // if failure, go get message, emit signal and return false;
-  const char *str = curl_easy_strerror(ret);
-  QString errorString(str);
-  emit errorMessage(QString("ERROR: " ) + QString(errorString));
+    // check for success
+    if (ret == CURLE_OK)
+        return true;
 
-  return false;
+    // if failure, go get message, emit signal and return false;
+    const char *str = curl_easy_strerror(ret);
+    QString errorString(str);
+    emit errorMessage(QString("ERROR: " ) + QString(errorString));
+
+    return false;
 }

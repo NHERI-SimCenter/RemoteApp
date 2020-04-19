@@ -1,3 +1,6 @@
+#ifndef SIMCENTER_DAKOTA
+#define SIMCENTER_DAKOTA
+
 /* *****************************************************************************
 Copyright (c) 2016-2017, The Regents of the University of California (Regents).
 All rights reserved.
@@ -34,15 +37,32 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 *************************************************************************** */
 
-#include <RemoteService.h>
+#include <Task.h>
 
-RemoteService::RemoteService(QObject *parent)
-    :QObject(parent)
-{
+/** 
+ *  @author  fmckenna
+ *  @date    2/2017
+ *  @version 1.0 
+ *  
+ *  @section DESCRIPTION
+ *  
+ *  This is the task that will run the SimCenterDakota application. Its purpose is to run the
+ *  dakota application at designsafe using files on local machine. The user provides the full 
+ *  path to a local dakota.in file. It assumes that the directory containing the file also contains 
+ *  a templatedir dir (which is what will be there if using a SimCenter UI.
+ * 
+ *  This class contains 1 method run which runs a remote job. To do this it:
+ *   1) creates a new dir, copies dakota.in and templatedir dir there, zips up template
+ *   2) copies new dir to Designsafe placing under usr/appName dir
+ *   3) starts a job at designsafe
+ *   4) deletes the new dir
+ *   
+ */
 
-}
+class SimCenterDakota : public Task {
+ public:
 
-RemoteService::~RemoteService()
-{
+  bool runRemote(int argc, char *argv[]);
 
-}
+};
+

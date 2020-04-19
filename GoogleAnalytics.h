@@ -1,5 +1,6 @@
 #ifndef GOOGLEANALYTICS_H
 #define GOOGLEANALYTICS_H
+
 #include <QUuid>
 #include <QtNetwork/QNetworkAccessManager>
 
@@ -18,4 +19,5 @@ void SetTrackingId(QString trackingId);
 static QString trackingId = "";
 static QNetworkAccessManager networkManager;
 }
+
 #endif // GOOGLEANALYTICS_H
