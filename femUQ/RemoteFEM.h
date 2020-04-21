@@ -2,7 +2,7 @@
 #define SIMCENTER_REMOTE_FEM
 
 /* *****************************************************************************
-Copyright (c) 2016-2017, The Regents of the University of California (Regents).
+Copyright (c) 2016-2020, The Regents of the University of California (Regents).
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without 
@@ -41,7 +41,7 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 /** 
  *  @author  fmckenna
- *  @date    2/2017
+ *  @date    4/2020
  *  @version 1.0 
  *  
  *  @section DESCRIPTION
@@ -51,10 +51,12 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  *
  * 
  *  This class contains 1 method run which runs a remote job. To do this it:
- *   1) creates a new dir, copies dakota.in and templatedir dir there, zips up template
- *   2) copies new dir to Designsafe placing under usr/appName dir
- *   3) starts a job at designsafe
- *   4) deletes the new dir
+ *   1) creates a new dir, in newdir creates templatedir
+ *   2) copies input file there, laucunfes femUQ on input file (this creates other files and a dakota.in)
+ *   3) zips up templatedir
+ *   4) copies new dir to Designsafe placing under usr/appName dir
+ *   5) starts a job at designsafe
+ *   6) deletes the new dir
  *   
  */
 
