@@ -7,7 +7,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QJsonDocument>
-#include <QUUid>
+#include <QUuid>
 #include <GoogleAnalytics.h>
 
 #include <Task.h>
@@ -35,60 +35,73 @@ int
 Task::recursiveCopy(const QString &source,
                     const QString &target)
 {
-    QFileInfo sourceInfo(source);
-    if (!sourceInfo.isDir()) {
 
-        // if not directory, then a file just copy
-        if (!QFile::copy(source, target))
-            return -1;
+  QFileInfo sourceInfo(source);
 
-    } else {
+  if (!sourceInfo.isDir()) {
 
-        // don't of course copy from HOME,DESKTOP, DOWNLOADS,
-        /*
-    QStandardPaths::DesktopLocation
+    std::cerr << "FILE:\n"; 
+    std::cerr << "source: " << source.toStdString() << " target: " << target.toStdString() << "\n";
+
+    // if not directory, then a file just copy
+    if (!QFile::copy(source, target))
+      return -1;
+    else
+      return 0;
+    
+  } else {
+
+    // don't of course copy from HOME,DESKTOP, DOWNLOADS,
+    /*
+      QStandardPaths::DesktopLocation
       QStandardPaths::DocumentsLocation
       QStandardPaths::ApplicationsLocation
       QStandardPaths::HomeLocation
       QStandardPaths::DownloadLocation
     */
+    
+    //
+    // source is a directory:
+    //   1. make directory for target
+    //   2. now copy all files and directory in source to target
+    //
+    
+    // mkdir target
+    std::cerr << "DIR: \n";
+    std::cerr << "source: " << source.toStdString() << " target: " << target.toStdString() << "\n";
 
-        //
-        // source is a directory:
-        //   1. make directory for target
-        //   2. now copy all files and directory in source to target
-        //
-
-        // mkdir target
-        QDir targetDir(target);
-        targetDir.cdUp();
-        if (!targetDir.mkdir(QFileInfo(target).fileName())) {
-            return -1;
-        }
-
-        // get list of all files in source and copy them, by calling this function
-
-        QDir sourceDir(source);
-        QStringList fileNames = sourceDir.entryList(QDir::Files
-                                                    | QDir::Dirs
-                                                    | QDir::NoDotAndDotDot
-                                                    | QDir::Hidden
-                                                    | QDir::System);
-
-        foreach (const QString &fileName, fileNames) {
-            const QString newSrcFilePath = source + QDir::separator() + fileName;
-            const QString newTgtFilePath = target + QDir::separator() + fileName;
-            if (!recursiveCopy(newSrcFilePath, newTgtFilePath))
-                return -1;
-        }
+    QDir targetDir(target);
+    targetDir.cdUp();
+    if (!targetDir.mkdir(QFileInfo(target).fileName())) {
+      return -1;
     }
+    
+    // get list of all files in source and copy them, by calling this function
+    
+    QDir sourceDir(source);
+    std::cerr << "sourceDir path: " << sourceDir.absolutePath().toStdString() << "\n";
 
-    return 0;
+    QStringList fileNames = sourceDir.entryList(QDir::Files
+						| QDir::Dirs
+						| QDir::NoDotAndDotDot);
+    
+    qDebug() << fileNames;
+
+    foreach (const QString &fileName, fileNames) {
+      std::cerr << "\tcopying: " << fileName.toStdString() << "\n";
+      const QString newSrcFilePath = source + QDir::separator() + fileName;
+      const QString newTgtFilePath = target + QDir::separator() + fileName;
+      if (recursiveCopy(newSrcFilePath, newTgtFilePath) != 0)
+	return -1;
+    }
+  }
+  
+  return 0;
 }
 
 int
 Task::runRemote(int argc, char *argv[]) {
-    return 0;
+  std::cerr << "Basic Task does not run anything - method need to be overwritten";
 }
 
 int
@@ -135,13 +148,21 @@ Task::resetPreferences(int argc, char *argv[]) {
         if ((strcmp(argv[count],"-u") == 0) || (strcmp(argv[count],"--user") == 0)) {
             QString username(argv[count+1]);
             settingsCommon.setValue("login", username);
-            std::cerr << "SET USERNAME\n";
             count += 2;
         }
         else if ((strcmp(argv[count],"-p") == 0) || (strcmp(argv[count],"--password") == 0)) {
             QString password(argv[count+1]);
             settingsCommon.setValue("password", password);
-            std::cerr << "SET PASS\n";
+            count += 2;
+        }
+        else if ((strcmp(argv[count],"-a") == 0) || (strcmp(argv[count],"--appDir") == 0)) {
+            QString dir(argv[count+1]);
+	    QDir theDir(dir);
+	    if (!theDir.exists()) {
+	      std::cerr << "directory : " << dir.toStdString() << " does not exist! No appdir set\n";
+	    } else {
+	      settingsApplication.setValue("appDir", theDir.absolutePath());
+	    }
             count += 2;
         }
         else
@@ -229,7 +250,7 @@ Task::login(char *name, char *password) {
 
     QString tenant("designsafe");
     QString storage("agave://designsafe.storage.default/");
-    QString dirName("remoteApp");
+    QString dirName = QCoreApplication::applicationName();
 
     theRemoteService = new TapisCurl(tenant, storage, &dirName);
 

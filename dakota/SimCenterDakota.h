@@ -59,10 +59,12 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  *   
  */
 
-class SimCenterDakota : public Task {
+class SimCenterDakota : public Task 
+{
  public:
 
-  bool runRemote(int argc, char *argv[]);
+  int runRemote(int argc, char *argv[]);
 
 };
 
+#endif // SIMCENTER_DAKOTA

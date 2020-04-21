@@ -2,20 +2,20 @@
 
 #include <QCoreApplication>
 #include <GoogleAnalytics.h>
-#include <FEM_UQ.h>
+#include <RemoteFEM.h>
 
 int main(int argc, char *argv[])
 {
   QCoreApplication a(argc, argv);
    
-  QCoreApplication::setApplicationName("remoteApp");
+  QCoreApplication::setApplicationName("FEMUQ");
   QCoreApplication::setOrganizationName("SimCenter");
   QCoreApplication::setApplicationVersion("2.0.1");
   //    GoogleAnalytics::SetTrackingId("UA-121636495-1");
   GoogleAnalytics::StartSession();
   GoogleAnalytics::ReportStart();
 
-  FEM_UQ theTask;
+  RemoteFEM theTask;
   theTask.parseCommand(argc, argv);
 
   GoogleAnalytics::EndSession();

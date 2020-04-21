@@ -1,0 +1,1 @@
+{"NodeMapping": [{"node": 1, "cline": "centroid", "floor": "0"}, {"node": 1, "cline": "response", "floor": "0"}, {"node": 2, "cline": "centroid", "floor": "1"}, {"node": 2, "cline": "response", "floor": "1"}], "numStory": 1, "ndm": 2, "type": "generic", "Properties": {"uniaxialMaterials": []}, "Geometry": {"nodes": [], "elements": []}, "randomVar": []}

@@ -19,17 +19,10 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 macos:LIBS += /usr/lib/libcurl.dylib
 
-include(./ZipUtils/ZipUtils.pri)
+include(../common/remoteApp.pri)
 
 SOURCES += main.cpp \
-    GoogleAnalytics.cpp \
-    RemoteService.cpp \
-    Task.cpp \
-    FEM_UQ.cpp \
-    TapisCurl.cpp
+       RemoteFEM.cpp
 
-HEADERS += GoogleAnalytics.h \
-    RemoteService.h \
-    TapisCurl.h \
-    FEM_UQ.h \
-    Task.h
+HEADERS += RemoteFEM.h
+

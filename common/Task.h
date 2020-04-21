@@ -66,20 +66,12 @@ class Task {
   virtual ~Task();
 
   /**
-   * Login to service
-   * @param[in] name username, default is nullptr in which case will use that stored in preferences
-   * @param[in] password again default is nullptr in which case will use that stored in preferences
-   * @return Returns 0 if successfull, negative number if not
-   */
-  int login(char *name = nullptr, char *password = nullptr);
-
-  /**
    * runRemote method all suerclass should implement. it will run job remotely
    * @param[in] argc integer value indiacating  number of strngs in argv
    * @param[in] argv array of strings passed by user when running application
    * @return Returns 0 if successfull, negative number if not
    */
-  int runRemote(int argc, char *argv[]);
+  virtual int runRemote(int argc, char *argv[]);
 
   /**
    * listJobs method to list current jobs at remote service
@@ -95,7 +87,7 @@ class Task {
    * @param[in] argv array of strings passed by user when running application
    * @return Returns 0 if successfull, negative number if not
    */
-  int jobDetails(int argc, char *argv[]);
+  virtual int jobDetails(int argc, char *argv[]);
 
   /**
    * resetPreferences method to reset the preferences stored
@@ -103,7 +95,7 @@ class Task {
    * @param[in] argv array of strings passed by user when running application
    * @return Returns 0 if successfull, negative number if not
    */
-  int resetPreferences(int argc, char *argv[]);
+  virtual int resetPreferences(int argc, char *argv[]);
 
   /**
    * printPreferences method to reset the preferences stored
@@ -111,7 +103,7 @@ class Task {
    * @param[in] argv array of strings passed by user when running application
    * @return Returns 0 if successfull, negative number if not
    */
-  int printPreferences(int argc, char *argv[]);
+  virtual int printPreferences(int argc, char *argv[]);
 
   /**
    * printHelp method to print list of application options
@@ -119,7 +111,7 @@ class Task {
    * @param[in] argv array of strings passed by user when running application
    * @return Returns 0 if successfull, negative number if not
    */
-  int printHelp(int argc, char *argv[]);
+  virtual int printHelp(int argc, char *argv[]);
 
   /**
    * parseCommand method to parse command line args and invoke appropriate method above
@@ -127,14 +119,23 @@ class Task {
    * @param[in] argv array of strings passed by user when running application
    * @return Returns 0 if successfull, negative number if not
    */
-  int parseCommand(int argc, char *argv[]);
+  virtual int parseCommand(int argc, char *argv[]);
 
   /**
    * printMethod method used as ouput
    * @param[in] message Qstring containing message to be output
    * @return Returns 0 if successfull, negative number if not
    */
-  int printMessage(QString &message);
+  virtual int printMessage(QString &message);
+
+
+  /**
+   * Login to service
+   * @param[in] name username, default is nullptr in which case will use that stored in preferences
+   * @param[in] password again default is nullptr in which case will use that stored in preferences
+   * @return Returns 0 if successfull, negative number if not
+   */
+  int login(char *name = nullptr, char *password = nullptr);
 
 
   /**
