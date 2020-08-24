@@ -1,0 +1,234 @@
+{
+  "id": "simcenter-openfoam_v7-1.0.0",
+  "name": "simcenter-openfoam_v7",
+  "version": "1.0.0",
+  "revision": 1,
+  "label": "OpenFOAM (V7)",
+  "lastModified": "a minute ago",
+  "shortDescription": "OpenFOAM is free, open source software for computational fluid dynamics (CFD).",
+  "longDescription": "OpenFOAM is free, open source software for computational fluid dynamics (CFD).",
+  "owner": "tg457427",
+  "isPublic": false,
+  "executionType": "HPC",
+  "executionSystem": "designsafe.simcenter.exec.stampede2",
+  "deploymentSystem": "designsafe.storage.default",
+  "available": true,
+  "parallelism": "PARALLEL",
+  "defaultProcessorsPerNode": 64,
+  "defaultMemoryPerNode": 1,
+  "defaultNodeCount": 1,
+  "defaultMaxRunTime": "48:00:00",
+  "defaultQueue": "normal",
+  "tags": [
+    "Designsafe",
+    "appCategory:Simulation",
+    "appIcon:OpenFOAM"
+  ],
+  "ontology": [],
+  "helpURI": "https://www.designsafe-ci.org/rw/user-guide/workspace/openfoam/",
+  "deploymentPath": "tg457427/applications/simcenter-openfoam_v7-1.0.0",
+  "templatePath": "wrapper.sh",
+  "testPath": "test/test.sh",
+  "checkpointable": false,
+  "modules": [
+    "load openfoam"
+  ],
+  "inputs": [
+    {
+      "id": "inputDirectory",
+      "value": {
+        "validator": "",
+        "visible": true,
+        "required": true,
+        "order": 0,
+        "enquote": false,
+        "default": "agave://designsafe.storage.community//app_examples/openfoam/openfoam_DH1"
+      },
+      "details": {
+        "label": "Case Directory",
+        "description": "The directory containing your zipped up OpenFOAM case. The zip file should contain your '0', 'constant', and 'system' directories. You can drag the link for the directory from the Data Browser on the left, or click the 'Select Input' button and then select the directory. To try out a sample dataset copy and paste 'agave://designsafe.storage.community//app_examples/openfoam/openfoam_DH1' above.",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xsd:string"
+        ],
+        "fileTypes": [
+          "raw-0"
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "id": "openFoamDir",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 0,
+        "enquote": false,
+        "default": "example",
+        "validator": null
+      },
+      "details": {
+        "label": "openFoamDir",
+        "description": "name of .zip directory containing input",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "mesh",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "enumeration",
+        "order": 0,
+        "enquote": false,
+        "default": "On",
+        "enum_values": [
+          {
+            "On": "On"
+          },
+          {
+            "Off": "Off"
+          }
+        ]
+      },
+      "details": {
+        "label": "Mesh",
+        "description": "Please choose the option for mesh generation.",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:enumeration",
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "solver",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "enumeration",
+        "order": 0,
+        "enquote": false,
+        "default": "pisoFoam",
+        "enum_values": [
+          {
+            "pisoFoam": "pisoFoam"
+          },
+          {
+            "interFoam": "interFoam"
+          },
+          {
+            "simpleFoam": "simpleFoam"
+          },
+          {
+            "icoFoam": "icoFoam"
+          },
+          {
+            "potentialFoam": "potentialFoam"
+          },
+          {
+            "olaFlow": "olaFlow"
+          }
+        ]
+      },
+      "details": {
+        "label": "Solver",
+        "description": "Select pisoFoam for transient incompressible turbulence flow, interFoam for 2 incompressible isothermal immiscible fluids using a VOF phase-fraction based interface capture approach, simpleFoam for steady-state incompressible turbulence flow,icoFoam for solving the incompressible laminar Navier-Stokes equations using the PISO algorithm, potentialFOAM for solving velocity potential to provide velocity and incompressible flux fields, typically used to initialise viscous calculations.",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:enumeration",
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "decomp",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "enumeration",
+        "order": 0,
+        "enquote": false,
+        "default": "On",
+        "enum_values": [
+          {
+            "On": "On"
+          },
+          {
+            "Off": "Off"
+          }
+        ]
+      },
+      "details": {
+        "label": "Decomposition",
+        "description": "Please choose the option for domain decomposition.",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:enumeration",
+          "xs:string"
+        ]
+      }
+    }
+  ],
+  "outputs": [],
+  "uuid": "8374109534299427306-242ac117-0001-005",
+  "icon": null,
+  "_links": {
+    "self": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/simcenter-openfoam_v7-1.0.0"
+    },
+    "executionSystem": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.simcenter.exec.stampede2"
+    },
+    "storageSystem": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.storage.default"
+    },
+    "history": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/simcenter-openfoam_v7-1.0.0/history"
+    },
+    "metadata": {
+      "href": "https://agave.designsafe-ci.org/meta/v2/data/?q=%7B%22associationIds%22%3A%228374109534299427306-242ac117-0001-005%22%7D"
+    },
+    "owner": {
+      "href": "https://agave.designsafe-ci.org/profiles/v2/tg457427"
+    },
+    "permissions": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/simcenter-openfoam_v7-1.0.0/pems"
+    }
+  }
+}

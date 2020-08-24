@@ -1,0 +1,25 @@
+{
+    "name": "example",
+    "appId": "simcenter-openfoam_v7-1.0.0",
+    "inputs": {
+      "inputDirectory": "agave://designsafe.storage.default/tg457427/tesstApps/simcenter-openfoam_v7"
+    },
+    "parameters" : {
+      "openFoamDir":"example",
+      "mesh":"Off",
+      "solver":"olaFlow"
+    },
+    "maxRunTime": "01:00:00",
+    "memoryPerNode": "1GB",
+    "nodeCount": 2,
+    "processorsPerNode": 32,
+    "archive": true,
+    "archiveOnAppError":true,
+    "archiveSystem":"designsafe.storage.default",
+    "notifications": [
+      {
+        "url" : "fmckenna@berkeley.edu",
+        "event": "*"
+      }
+    ]
+}
