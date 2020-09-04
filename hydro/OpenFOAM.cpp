@@ -65,6 +65,12 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  *   4) deletes the new dir
  */
 
+
+OpenFOAM::OpenFOAM(QString &appID)
+    :Task(appID)
+{
+
+}
 int
 OpenFOAM::parseCommand(int argc, char **argv) {
 
@@ -82,8 +88,10 @@ OpenFOAM::parseCommand(int argc, char **argv) {
   char *username = NULL;
   char *password = NULL;
   char *dirName = NULL;
-  char *solver = "olaFlow";
-  char *mesh = "Off";
+  char olaFlow[] = "olaFlow";
+  char *solver = olaFlow;
+  char meshOff[] = "Off";
+  char *mesh = meshOff;
   
   while (count < argc-1) { 
 
@@ -241,6 +249,8 @@ OpenFOAM::parseCommand(int argc, char **argv) {
    QString remoteDir =  theRemoteService->getHomeDirPath() + QString("/") + appName;
    theRemoteService->mkdir(theRemoteService->getHomeDirPath(), appName);
 
+   qDebug() << "RemoteDIR: " << remoteDir;
+   
    std::cerr << "Uploading files .. \n";
    if (theRemoteService->uploadDirectory(zipLocation, remoteDir) != true)
      return -4;

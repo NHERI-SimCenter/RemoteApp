@@ -80,7 +80,7 @@ public:
     // methods needed atomic file/dir operations
     // methods needed for file/dir operations
     QJsonArray remoteLS(const QString &remotePath);
-    bool mkdir(const QString &remoteName, const     QString &remotePath);
+    bool mkdir(const QString &remoteName, const  QString &remotePath);
     bool uploadFile(const QString &local, const QString &remote);
     bool downloadFile(const QString &remote, const QString &local);
     bool uploadDirectory(const QString &local, const QString &remote);

@@ -107,6 +107,7 @@ TapisCurl::~TapisCurl()
 
     // if we have logged in .. delete the client app
 
+
     if (loggedInFlag == true) {
 
         QString url = tenantURL + QString("clients/v2/") + appClient;
@@ -165,6 +166,8 @@ TapisCurl::login(QString uname, QString upassword)
 {
     username = uname;
     password = upassword;
+
+    qDebug() << "username: " << username;
 
     QString consumerSecret;
     QString consumerKey;

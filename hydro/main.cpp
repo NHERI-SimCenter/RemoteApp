@@ -52,7 +52,8 @@ int main(int argc, char *argv[])
   GoogleAnalytics::StartSession();
   GoogleAnalytics::ReportStart();
 
-  OpenFOAM theTask;
+  QString appID("simcenter-openFoamV7-1.0.0");
+  OpenFOAM theTask(appID);
   theTask.parseCommand(argc, argv);
 
   GoogleAnalytics::EndSession();

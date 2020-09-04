@@ -38,7 +38,7 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 *************************************************************************** */
 
 class TapisCurl;
-class QString;
+#include <QString>
 
 /** 
  *  @author  fmckenna
@@ -58,7 +58,7 @@ class Task {
   /**
    * @constructor Construct new Task.
    */
-  Task();
+  Task(QString &appID);
 
   /**
    * @destructor Virtual desctructor for Task
@@ -149,6 +149,7 @@ class Task {
 
  protected:
   TapisCurl *theRemoteService; 
+  QString appID;
 
 };
 

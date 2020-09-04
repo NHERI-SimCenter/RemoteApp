@@ -62,6 +62,7 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 class OpenFOAM : public Task 
 {
  public:
+  OpenFOAM(QString &appID);
 
   int parseCommand(int argc, char *argv[]);
 

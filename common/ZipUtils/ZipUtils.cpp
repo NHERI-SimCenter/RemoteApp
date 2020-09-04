@@ -1,11 +1,17 @@
 #include <ZipUtils.h>
 #include <zip.h>
 #include <QDirIterator>
+#include <QDebug>
+#include <QFileInfo>
 
 bool ZipUtils::ZipFolder(QDir directoryToZip, QString zipFilePath)
 {
 
+
     zipFile newZipFile = zipOpen(zipFilePath.toStdString().c_str(), APPEND_STATUS_CREATE);
+
+    QFileInfo theZipFile(zipFilePath);
+    QString zipFileName = theZipFile.fileName();
 
     //Checking if the file is opened
     if(NULL == newZipFile)
@@ -26,8 +32,10 @@ bool ZipUtils::ZipFolder(QDir directoryToZip, QString zipFilePath)
         if(fileInfo.fileName() == "." || fileInfo.fileName() == "..")
             continue;
 
-        QFile afile(fileInfo.filePath());
+        if (fileInfo.fileName() == zipFileName)
+            continue; // don;t add zip file
 
+        QFile afile(fileInfo.filePath());
 
         if(afile.exists())
         {

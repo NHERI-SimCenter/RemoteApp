@@ -52,8 +52,9 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 #include <TapisCurl.h>
 
 
-Task::Task() {
+Task::Task(QString &id) {
     theRemoteService = NULL;
+    appID = id;
 }
 
 
@@ -78,8 +79,8 @@ Task::recursiveCopy(const QString &source,
 
   if (!sourceInfo.isDir()) {
 
-    std::cerr << "FILE:\n"; 
-    std::cerr << "source: " << source.toStdString() << " target: " << target.toStdString() << "\n";
+   // std::cerr << "FILE:\n";
+   // std::cerr << "source: " << source.toStdString() << " target: " << target.toStdString() << "\n";
 
     // if not directory, then a file just copy
     if (!QFile::copy(source, target))
@@ -105,8 +106,8 @@ Task::recursiveCopy(const QString &source,
     //
     
     // mkdir target
-    std::cerr << "DIR: \n";
-    std::cerr << "source: " << source.toStdString() << " target: " << target.toStdString() << "\n";
+    //std::cerr << "DIR: \n";
+    //std::cerr << "source: " << source.toStdString() << " target: " << target.toStdString() << "\n";
 
     QDir targetDir(target);
     targetDir.cdUp();
@@ -123,7 +124,7 @@ Task::recursiveCopy(const QString &source,
 						| QDir::Dirs
 						| QDir::NoDotAndDotDot);
     
-    qDebug() << fileNames;
+    //qDebug() << fileNames;
 
     foreach (const QString &fileName, fileNames) {
       std::cerr << "\tcopying: " << fileName.toStdString() << "\n";
@@ -151,8 +152,7 @@ Task::resetPreferences(int argc, char *argv[]) {
     QSettings settingsCommon("SimCenter", "Common");
     QSettings settingsApplication("SimCenter", appName);
 
-    QString remoteAppName = QString("simcenter-dakota-1.0.0u1");
-    settingsApplication.setValue("remoteTapisApp", remoteAppName);
+    settingsApplication.setValue("remoteTapisApp", appID);
 
 #ifdef Q_OS_WIN
     QStringList paths{QCoreApplication::applicationDirPath().append("/applications/python")};
@@ -193,14 +193,20 @@ Task::resetPreferences(int argc, char *argv[]) {
             settingsCommon.setValue("password", password);
             count += 2;
         }
-        else if ((strcmp(argv[count],"-a") == 0) || (strcmp(argv[count],"--appDir") == 0)) {
+        else if ((strcmp(argv[count],"-d") == 0) || (strcmp(argv[count],"--appDir") == 0)) {
             QString dir(argv[count+1]);
-	    QDir theDir(dir);
-	    if (!theDir.exists()) {
-	      std::cerr << "directory : " << dir.toStdString() << " does not exist! No appdir set\n";
-	    } else {
-	      settingsApplication.setValue("appDir", theDir.absolutePath());
-	    }
+            QDir theDir(dir);
+            if (!theDir.exists()) {
+                std::cerr << "directory : " << dir.toStdString() << " does not exist! No appdir set\n";
+            } else {
+                settingsApplication.setValue("appDir", theDir.absolutePath());
+            }
+            count += 2;
+        }
+        else if ((strcmp(argv[count],"-i") == 0) || (strcmp(argv[count],"--appID") == 0)) {
+            QString id(argv[count+1]);
+            appID = id;
+            settingsApplication.setValue("remoteTapisApp", appID);
             count += 2;
         }
         else
@@ -213,10 +219,9 @@ Task::resetPreferences(int argc, char *argv[]) {
 int
 Task::printPreferences(int argc, char *argv[]) {
 
-     QString appName = QCoreApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
 
     std::cout << "Preferences for Application: " << appName.toStdString() << "\n";
-
 
     QSettings settingsCommon("SimCenter", "Common");
     QSettings settingsApplication("SimCenter", appName);
