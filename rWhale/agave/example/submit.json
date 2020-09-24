@@ -1,0 +1,13 @@
+{"name": "rWHALE-submit-wrapper.sh.1",
+ "appId": "rWHALE-2.1.0",
+ "maxRunTime": "00:29:00",
+ "nodeCount": 1,
+ "processorsPerNode": 10,
+ "batchQueue": "normal",
+ "archive": true,
+ "archiveSystem": "designsafe.storage.default",
+ "parameters": {"buildingsCount": "10",
+  "buildingsPerTask": "1",
+  "firstBuilding": "1"},
+ "inputs": {"dataFiles": ["agave://designsafe.storage.default/tg457427/rWhaleTest/input_data.zip"],
+     "configFile": "agave://designsafe.storage.default/tg457427/rWhaleTest/rWHALE_Atlantic_City_remote.json"}}

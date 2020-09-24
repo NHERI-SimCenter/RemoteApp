@@ -1,0 +1,210 @@
+{
+  "id": "rWhale-2.1.0",
+  "name": "rWhale",
+  "version": "2.1.0",
+  "revision": 1,
+  "label": "rWHALE",
+  "lastModified": "4 minutes ago",
+  "shortDescription": "rWHALE: Regional Workflow for Hazard and Loss Estimation. This Agave application runs the regional earthquake workflow on TACC Stampede2 using applications and data in DesignSafe Data Depot.",
+  "longDescription": "rWHALE: Regional Workflow for Hazard and Loss Estimation. This Agave application runs the regional earthquake workflow on TACC Stampede2 using applications and data in DesignSafe Data Depot.",
+  "owner": "tg457427",
+  "isPublic": false,
+  "executionType": "HPC",
+  "executionSystem": "designsafe.simcenter.exec.stampede2",
+  "deploymentSystem": "designsafe.storage.default",
+  "available": true,
+  "parallelism": "PARALLEL",
+  "defaultProcessorsPerNode": 64,
+  "defaultMemoryPerNode": 92,
+  "defaultNodeCount": 1,
+  "defaultMaxRunTime": "02:00:00",
+  "defaultQueue": "normal",
+  "tags": [
+    "Earthquake",
+    "SimCenter",
+    "appCategory:Simulation"
+  ],
+  "ontology": [],
+  "helpURI": "https://github.com/NHERI-SimCenter/WorkflowRegionalEarthquake/blob/master/README.md",
+  "deploymentPath": "tg457427/applications/rWhale-2.1.0",
+  "templatePath": "wrapper.sh",
+  "testPath": "test/test.sh",
+  "checkpointable": false,
+  "modules": [],
+  "inputs": [
+    {
+      "id": "dataFiles",
+      "value": {
+        "validator": ".+",
+        "visible": true,
+        "required": true,
+        "order": 1,
+        "enquote": false,
+        "default": [
+          "agave://designsafe.storage.default/elhaddad/RegionalTest01/RegionalDataSF.zip"
+        ]
+      },
+      "details": {
+        "label": "Regional Simulation Data",
+        "description": "One or more data files used for the regional simulation in compressed form, these files are extracted inside the data folder",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 10,
+        "ontology": [],
+        "fileTypes": []
+      }
+    },
+    {
+      "id": "configFile",
+      "value": {
+        "validator": ".+",
+        "visible": true,
+        "required": true,
+        "order": 2,
+        "enquote": false,
+        "default": "agave://designsafe.storage.default/elhaddad/RegionalTest01/Workflow5.json"
+      },
+      "details": {
+        "label": "Workflow Configuration File",
+        "description": "This is the configuration file that specifies the applications and the data used for the regional simulation",
+        "argument": "",
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [],
+        "fileTypes": []
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "id": "buildingsPerTask",
+      "value": {
+        "visible": true,
+        "required": false,
+        "type": "string",
+        "order": 1,
+        "enquote": false,
+        "default": "10",
+        "validator": "[1-9]\\d*"
+      },
+      "details": {
+        "label": "Number of Buildings to run in a single task assigned to a single processor",
+        "description": "This is number of buildings simulations to run a single CPU for a single task",
+        "argument": "",
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": []
+      }
+    },
+    {
+      "id": "buildingsCount",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 1,
+        "enquote": false,
+        "default": "10",
+        "validator": "[1-9]\\d*"
+      },
+      "details": {
+        "label": "Number of Buildings to include in the Regional Simulation",
+        "description": "This is the actual number of buildings to include, it can be less than the total number of buildings in the database",
+        "argument": "",
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": []
+      }
+    },
+    {
+      "id": "firstBuilding",
+      "value": {
+        "visible": true,
+        "required": false,
+        "type": "string",
+        "order": 1,
+        "enquote": false,
+        "default": "1",
+        "validator": "[1-9]\\d*"
+      },
+      "details": {
+        "label": "The first building to use in this simulation, default is 1",
+        "description": "if this value is specified the buildings simulation will start at the building with the given index",
+        "argument": "",
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": []
+      }
+    },
+    {
+      "id": "Logging",
+      "value": {
+        "visible": true,
+        "required": false,
+        "type": "bool",
+        "order": 2,
+        "enquote": false,
+        "default": false,
+        "validator": null
+      },
+      "details": {
+        "label": "Logging",
+        "description": "Enable collection of logs",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": []
+      }
+    }
+  ],
+  "outputs": [],
+  "uuid": "9001929359971511830-242ac116-0001-005",
+  "icon": null,
+  "_links": {
+    "self": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/rWhale-2.1.0"
+    },
+    "executionSystem": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.simcenter.exec.stampede2"
+    },
+    "storageSystem": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.storage.default"
+    },
+    "history": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/rWhale-2.1.0/history"
+    },
+    "metadata": {
+      "href": "https://agave.designsafe-ci.org/meta/v2/data/?q=%7B%22associationIds%22%3A%229001929359971511830-242ac116-0001-005%22%7D"
+    },
+    "owner": {
+      "href": "https://agave.designsafe-ci.org/profiles/v2/tg457427"
+    },
+    "permissions": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/rWhale-2.1.0/pems"
+    }
+  }
+}
