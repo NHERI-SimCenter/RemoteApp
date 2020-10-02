@@ -1,0 +1,144 @@
+{
+  "id": "designsafe.simcenter.exec.stampede2",
+  "name": "Stampede2 SLURM SimCenter Execution Host",
+  "type": "EXECUTION",
+  "default": false,
+  "_links": {
+    "metadata": {
+      "href": "https://agave.designsafe-ci.org/meta/v2/data/?q=%7B%22associationIds%22%3A%221182811176593583640-242ac116-0001-006%22%7D"
+    },
+    "roles": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.simcenter.exec.stampede2/roles"
+    },
+    "self": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.simcenter.exec.stampede2"
+    },
+    "history": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.simcenter.exec.stampede2/history"
+    }
+  },
+  "available": true,
+  "description": "SimCenter using Stampede2",
+  "environment": null,
+  "executionType": "HPC",
+  "globalDefault": false,
+  "lastModified": "2 years ago",
+  "login": {
+    "proxy": null,
+    "protocol": "SSH",
+    "port": 22,
+      "auth": {
+      "username": "UPDATEUSERNAME",
+      "publicKey":"paste public key here",
+      "privateKey":"paste private key here",	  
+      "type": "SSHKEYS"
+    },
+    "host": "stampede2.tacc.utexas.edu"
+  },
+  "maxSystemJobs": 200,
+  "maxSystemJobsPerUser": 25,
+  "owner": "simcntr",
+  "public": true,
+    "queues": [
+	    {
+      "maxJobs": 3,
+      "maxMemoryPerNode": 192,
+      "default": false,
+      "maxRequestedTime": "48:00:00",
+      "name": "skx-large",
+      "description": null,
+      "maxNodes": 865,
+      "maxProcessorsPerNode": 41664,
+      "mappedName": null,
+      "maxUserJobs": -1,
+      "customDirectives": "-A DesignSafe-SimCenter"
+    },
+    {
+      "maxJobs": 25,
+      "maxMemoryPerNode": 192,
+      "default": false,
+      "maxRequestedTime": "48:00:00",
+      "name": "skx-normal",
+      "description": null,
+      "maxNodes": 128,
+      "maxProcessorsPerNode": 6144,
+      "mappedName": null,
+      "maxUserJobs": -1,
+      "customDirectives": "-A DesignSafe-SimCenter"
+    },
+    {
+      "maxJobs": 1,
+      "maxMemoryPerNode": 96,
+      "default": false,
+      "maxRequestedTime": "02:00:00",
+      "name": "development",
+      "description": null,
+      "maxNodes": 4,
+      "maxProcessorsPerNode": 272,
+      "mappedName": null,
+      "maxUserJobs": 1,
+      "customDirectives": "-A DesignSafe-SimCenter "
+    },
+    {
+      "maxJobs": 50,
+      "maxMemoryPerNode": 96,
+      "default": true,
+      "maxRequestedTime": "48:00:00",
+      "name": "normal",
+      "description": null,
+      "maxNodes": 256,
+      "maxProcessorsPerNode": 17048,
+      "mappedName": null,
+      "maxUserJobs": 5,
+      "customDirectives": "-A DesignSafe-SimCenter"
+    },
+    {
+      "maxJobs": 5,
+      "maxMemoryPerNode": 96,
+      "default": false,
+      "maxRequestedTime": "48:00:00",
+      "name": "large",
+      "description": null,
+      "maxNodes": 2046,
+      "maxProcessorsPerNode": 139264,
+      "mappedName": null,
+      "maxUserJobs": -1,
+      "customDirectives": "-A DesignSafe-SimCenter"
+    },
+    {
+      "maxJobs": 1,
+      "maxMemoryPerNode": 192,
+      "default": false,
+      "maxRequestedTime": "02:00:00",
+      "name": "skx-dev",
+      "description": null,
+      "maxNodes": 4,
+      "maxProcessorsPerNode": 192,
+      "mappedName": null,
+      "maxUserJobs": -1,
+      "customDirectives": "-A DesignSafe-SimCenter"
+    }
+  ],
+  "revision": 2,
+  "scheduler": "SLURM",
+  "scratchDir": "/scratch/05717/simcntr/",
+  "site": "tacc.utexas.edu",
+  "status": "UP",
+  "storage": {
+    "proxy": null,
+    "protocol": "SFTP",
+    "mirror": false,
+    "port": 22,
+      "auth": {
+      "username": "UPDATEUSERNAME",
+      "publicKey":"paste public key here",
+      "privateKey":"paste private key here",
+      "type": "SSHKEYS"
+    },
+    "host": "stampede2.tacc.utexas.edu",
+    "rootDir": "/",
+    "homeDir": "/scratch/05717/simcntr"
+  },
+  "uuid": "1182811176593583640-242ac116-0001-006",
+  "workDir": "/work/05717/simcntr/stampede2/"
+}
