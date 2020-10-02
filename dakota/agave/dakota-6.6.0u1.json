@@ -1,0 +1,224 @@
+{
+  "id": "dakota-6.6.0u1",
+  "name": "dakota",
+  "version": "6.6.0",
+  "revision": 1,
+  "label": "dakota",
+  "lastModified": "2 years ago",
+  "shortDescription": "Dakota",
+  "longDescription": "Dakota",
+  "owner": "tg457427",
+  "isPublic": true,
+  "executionType": "HPC",
+  "executionSystem": "designsafe.simcenter.exec.stampede2",
+  "deploymentSystem": "designsafe.storage.default",
+  "available": true,
+  "parallelism": "PARALLEL",
+  "defaultProcessorsPerNode": 128,
+  "defaultMemoryPerNode": 1,
+  "defaultNodeCount": 8,
+  "defaultMaxRunTime": "06:00:00",
+  "defaultQueue": "normal",
+  "tags": [
+    "uncertainty",
+    "calibration",
+    "sampling"
+  ],
+  "ontology": [],
+  "helpURI": "https://dakota.sandia.gov/",
+  "deploymentPath": "/applications/dakota-6.6.0u1.zip",
+  "templatePath": "wrapper.sh",
+  "testPath": "test/test.sh",
+  "checkpointable": false,
+  "modules": [
+    "load dakota"
+  ],
+  "inputs": [
+    {
+      "id": "inputDirectory",
+      "value": {
+        "validator": "",
+        "visible": true,
+        "required": true,
+        "order": 0,
+        "enquote": false,
+        "default": "agave://designsafe.storage.default/mock/FreefieldAnalysis-Effective"
+      },
+      "details": {
+        "label": "Input Directory",
+        "description": "Input Directory",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xsd:string"
+        ],
+        "fileTypes": [
+          "raw-0"
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "id": "outputFile",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 0,
+        "enquote": false,
+        "default": "dakota.in",
+        "validator": null
+      },
+      "details": {
+        "label": "Dakota Output File",
+        "description": "The name of output file",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "modules",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 0,
+        "enquote": false,
+        "default": "",
+        "validator": null
+      },
+      "details": {
+        "label": "Modules",
+        "description": "Comma seperated list of modules to load",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "errorFile",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 0,
+        "enquote": false,
+        "default": "dakota.in",
+        "validator": null
+      },
+      "details": {
+        "label": "Dakota Error File",
+        "description": "The name of error file",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "inputFile",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 0,
+        "enquote": false,
+        "default": "dakota.in",
+        "validator": null
+      },
+      "details": {
+        "label": "Dakota Input File",
+        "description": "The name of input file",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:string"
+        ]
+      }
+    },
+    {
+      "id": "driverFile",
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "order": 0,
+        "enquote": false,
+        "default": "driver",
+        "validator": null
+      },
+      "details": {
+        "label": "Dakota Driver File",
+        "description": "The name of driver file .. needed as permissions not copied across",
+        "argument": null,
+        "showArgument": false,
+        "repeatArgument": false
+      },
+      "semantics": {
+        "minCardinality": 1,
+        "maxCardinality": 1,
+        "ontology": [
+          "xs:string"
+        ]
+      }
+    }
+  ],
+  "outputs": [],
+  "uuid": "1653317971650735640-242ac115-0001-005",
+  "icon": null,
+  "_links": {
+    "self": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/dakota-6.6.0u1"
+    },
+    "executionSystem": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.simcenter.exec.stampede2"
+    },
+    "storageSystem": {
+      "href": "https://agave.designsafe-ci.org/systems/v2/designsafe.storage.default"
+    },
+    "history": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/dakota-6.6.0u1/history"
+    },
+    "metadata": {
+      "href": "https://agave.designsafe-ci.org/meta/v2/data/?q=%7B%22associationIds%22%3A%221653317971650735640-242ac115-0001-005%22%7D"
+    },
+    "owner": {
+      "href": "https://agave.designsafe-ci.org/profiles/v2/tg457427"
+    },
+    "permissions": {
+      "href": "https://agave.designsafe-ci.org/apps/v2/dakota-6.6.0u1/pems"
+    }
+  }
+}
